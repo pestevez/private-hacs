@@ -10,8 +10,6 @@ from typing import Any
 
 import voluptuous as vol
 
-_LOGGER = logging.getLogger(__name__)
-
 from homeassistant.config_entries import (
     ConfigEntry,
     ConfigFlow,
@@ -44,6 +42,17 @@ from .const import (
 )
 from .github import GitHubAuthError, GitHubClient, GitHubError
 from .manager import get_manager
+
+_LOGGER = logging.getLogger(__name__)
+
+CLASSIC_PAT_URL = (
+    "https://github.com/settings/tokens/new?scopes=repo&description=Private+HACS"
+)
+FINE_GRAINED_PAT_URL = "https://github.com/settings/personal-access-tokens/new"
+TOKEN_PLACEHOLDERS = {
+    "classic_url": CLASSIC_PAT_URL,
+    "fine_url": FINE_GRAINED_PAT_URL,
+}
 
 
 class PrivateHacsConfigFlow(ConfigFlow, domain=DOMAIN):
@@ -83,7 +92,10 @@ class PrivateHacsConfigFlow(ConfigFlow, domain=DOMAIN):
             }
         )
         return self.async_show_form(
-            step_id="user", data_schema=schema, errors=errors
+            step_id="user",
+            data_schema=schema,
+            errors=errors,
+            description_placeholders=TOKEN_PLACEHOLDERS,
         )
 
     async def async_step_reauth(
@@ -119,7 +131,10 @@ class PrivateHacsConfigFlow(ConfigFlow, domain=DOMAIN):
             }
         )
         return self.async_show_form(
-            step_id="reauth_confirm", data_schema=schema, errors=errors
+            step_id="reauth_confirm",
+            data_schema=schema,
+            errors=errors,
+            description_placeholders=TOKEN_PLACEHOLDERS,
         )
 
     @staticmethod
