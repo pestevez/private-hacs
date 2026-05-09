@@ -1,0 +1,77 @@
+add_repository:
+  name: Add repository
+  description: >-
+    Track a GitHub repository so it can be installed and kept up to date.
+  fields:
+    full_name:
+      name: Repository
+      description: Repository in 'owner/repo' format.
+      required: true
+      example: pmestevez/my-private-integration
+      selector:
+        text:
+    ref_type:
+      name: Ref type
+      description: Which kind of GitHub ref to follow.
+      default: branch
+      selector:
+        select:
+          options:
+            - release
+            - tag
+            - branch
+            - commit
+    ref:
+      name: Ref
+      description: >-
+        Specific tag name, branch name, or commit SHA. Leave blank for
+        ref_type=release to follow the latest release.
+      default: main
+      example: main
+      selector:
+        text:
+    integration_name:
+      name: Integration name
+      description: >-
+        Folder name under custom_components/ to install. Required only if
+        the repo contains more than one integration.
+      example: my_integration
+      selector:
+        text:
+
+remove_repository:
+  name: Remove repository
+  description: Stop tracking a repository and delete its installed files.
+  fields:
+    full_name:
+      name: Repository
+      description: Repository in 'owner/repo' format.
+      required: true
+      selector:
+        text:
+
+install:
+  name: Install
+  description: >-
+    Download a tracked repository and write it into custom_components/.
+    A Home Assistant restart is required to load the new integration.
+  fields:
+    full_name:
+      name: Repository
+      description: Repository in 'owner/repo' format.
+      required: true
+      selector:
+        text:
+
+update:
+  name: Update
+  description: >-
+    Re-install a tracked repository at its current ref (typically picking up
+    a new release or branch HEAD). Restart Home Assistant after running.
+  fields:
+    full_name:
+      name: Repository
+      description: Repository in 'owner/repo' format.
+      required: true
+      selector:
+        text:

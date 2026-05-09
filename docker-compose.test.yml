@@ -1,0 +1,21 @@
+# Local test harness for Private HACS.
+#
+#   docker compose -f docker-compose.test.yml up -d
+#   open http://localhost:8123
+#
+# The integration source is bind-mounted live: edits to
+# custom_components/private_hacs/ are visible inside the container after a
+# Home Assistant restart (Developer Tools -> YAML -> Restart, or
+# `docker compose -f docker-compose.test.yml restart`).
+services:
+  homeassistant:
+    image: ghcr.io/home-assistant/home-assistant:stable
+    container_name: private-hacs-test
+    restart: "no"
+    ports:
+      - "8123:8123"
+    volumes:
+      - ./.test-config:/config
+      - ./custom_components/private_hacs:/config/custom_components/private_hacs
+    environment:
+      - TZ=UTC

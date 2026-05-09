@@ -1,0 +1,37 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+.eggs/
+build/
+dist/
+
+.venv/
+venv/
+env/
+
+.idea/
+.vscode/
+*.iml
+
+.DS_Store
+Thumbs.db
+
+.coverage
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local secrets — never commit
+.env
+.env.*
+*.pat
+secrets.yaml
+
+# Local Docker test harness state (HA's persistent config dir)
+.test-config/
+
+# Claude Code session state
+.claude/

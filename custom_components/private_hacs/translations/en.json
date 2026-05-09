@@ -1,0 +1,105 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Private HACS",
+        "description": "Paste a GitHub Personal Access Token. Two ways to create one:\n\n- **[Classic PAT (pre-filled with 'repo' scope)](https://github.com/settings/tokens/new?scopes=repo&description=Private+HACS)** — works for any private repo your account can access.\n- **[Fine-grained PAT](https://github.com/settings/personal-access-tokens/new)** — more secure: scope it to only the specific repos you want to install, with **Repository permissions → Contents: Read-only**.\n\nThe token is stored in Home Assistant's encrypted config store.",
+        "data": {
+          "github_token": "GitHub token"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Re-authenticate Private HACS",
+        "description": "The current GitHub token is no longer valid. Paste a new one. You can [create a classic PAT](https://github.com/settings/tokens/new?scopes=repo&description=Private+HACS) or a [fine-grained PAT](https://github.com/settings/personal-access-tokens/new).",
+        "data": {
+          "github_token": "GitHub token"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "GitHub rejected the token.",
+      "cannot_connect": "Could not reach GitHub."
+    },
+    "abort": {
+      "already_configured": "Private HACS is already configured.",
+      "reauth_successful": "Token updated."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Private HACS",
+        "description": "What would you like to do?",
+        "menu_options": {
+          "add_repository": "Add a private repository",
+          "manage_repository": "Manage / install / update a tracked repository",
+          "update_token": "Update the GitHub token"
+        }
+      },
+      "add_repository": {
+        "title": "Add a private repository",
+        "description": "Paste the GitHub repository URL or 'owner/repo'. Choose how you want to track it.\n\n_Note: after a successful install you'll need to restart Home Assistant for the new integration to load. A persistent notification will remind you._\n\n{detail}",
+        "data": {
+          "full_name": "Repository (URL or owner/repo)",
+          "ref_type": "Track by",
+          "ref": "Tag / branch / commit (required for tag, branch, commit)",
+          "integration_name": "Integration folder name (only if the repo has multiple)",
+          "install_now": "Install immediately after adding"
+        }
+      },
+      "manage_repository": {
+        "title": "Pick a tracked repository",
+        "description": "Choose which repository to act on.",
+        "data": {
+          "full_name": "Repository"
+        }
+      },
+      "repository_action": {
+        "title": "{repo}",
+        "description": "Pick an action. Install / update writes to `custom_components/` and requires a Home Assistant restart to take effect.\n\n{detail}",
+        "data": {
+          "action": "Action"
+        }
+      },
+      "installed_confirmation": {
+        "title": "Installed",
+        "description": "**{repo}** is installed as `custom_components/{integration}/` (version: `{version}`).\n\n## Restart required\n\nHome Assistant must be **restarted** for the new integration to load. The files are on disk but not yet active.\n\nGo to **Developer Tools → YAML → Restart**, or use the system menu.\n\nClick **Submit** to close this dialog."
+      },
+      "update_token": {
+        "title": "Update GitHub token",
+        "description": "Replace the stored token with a new Personal Access Token.",
+        "data": {
+          "github_token": "GitHub token"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "GitHub rejected the token.",
+      "cannot_connect": "Could not reach GitHub.",
+      "add_failed": "Could not add the repository: {detail}",
+      "install_failed": "Repository was added but install failed: {detail}",
+      "action_failed": "Action failed: {detail}"
+    },
+    "abort": {
+      "no_repositories": "No repositories are tracked yet. Add one first."
+    }
+  },
+  "services": {
+    "add_repository": {
+      "name": "Add repository",
+      "description": "Track a GitHub repository so it can be installed and kept up to date."
+    },
+    "remove_repository": {
+      "name": "Remove repository",
+      "description": "Stop tracking a repository and delete its installed files."
+    },
+    "install": {
+      "name": "Install",
+      "description": "Download a tracked repository and write it into custom_components/."
+    },
+    "update": {
+      "name": "Update",
+      "description": "Re-install a tracked repository at its current ref."
+    }
+  }
+}
